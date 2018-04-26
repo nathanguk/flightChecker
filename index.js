@@ -24,7 +24,7 @@ module.exports = function (context) {
     
     //flight query
     function flightQuery(){
-        context.log("test-2");
+        context.log("test2");
             ryanairQuery(departureAirport, arrivalAirport, departureDate, arrivalDate)
           
             .then(function(data){    
