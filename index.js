@@ -10,14 +10,14 @@ module.exports = function (context) {
     }
 
     //Parameters
-    var apikey = process.env['apikey']
-    var apihost = "apigateway.ryanair.com"
+    var apikey = process.env['apikey'];
+    var apihost = "apigateway.ryanair.com";
 
-    var departureAirport = "MAN"
-    var arrivalAirport = "IBZ"
+    var departureAirport = "MAN";
+    var arrivalAirport = "IBZ";
 
-    var departureDate = "2018-06-08"
-    var arrivalDate = "2018-06-10"
+    var departureDate = "2018-06-08";
+    var arrivalDate = "2018-06-10";
 
     flightQuery();
     
@@ -78,6 +78,7 @@ module.exports = function (context) {
             else {
 
               context.log("Status Code: " + response.statusCode);
+              context.log(data);
 
               // Call the callback and pass in the body
               callback(null, body);
