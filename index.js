@@ -19,10 +19,12 @@ module.exports = function (context) {
     var departureDate = "2018-06-08";
     var arrivalDate = "2018-06-10";
 
+    context.log("test");
     flightQuery();
     
     //flight query
     function flightQuery(){
+        context.log("test-2");
             ryanairQuery(departureAirport, arrivalAirport, departureDate, arrivalDate)
           
             .then(function(data){    
