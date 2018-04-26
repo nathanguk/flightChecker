@@ -16,8 +16,8 @@ module.exports = function (context) {
     var departureAirport = "MAN"
     var arrivalAirport = "IBZ"
 
-    var startDate = ""
-    var endDate = ""
+    var departureDate = "2018-06-08"
+    var arrivalDate = "2018-06-10"
 
     flightQuery();
     
