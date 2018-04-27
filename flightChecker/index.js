@@ -8,7 +8,7 @@ module.exports = function (context, myTimer) {
     var keyVar = 'apikey';
 
     if (!process.env[keyVar]) {
-    throw new Error('please set/export the following environment variable: ' + keyVar );
+        throw new Error('please set/export the following environment variable: ' + keyVar );
     };
 
     //Parameters
@@ -22,6 +22,7 @@ module.exports = function (context, myTimer) {
     var arrivalDate = "2018-06-10";
 
     context.log("test1");
+
     flightQuery();
     
     //flight query
@@ -52,8 +53,6 @@ module.exports = function (context, myTimer) {
 
     };  
     
-
-
     //query ryanair
     function ryanairQuery(departureAirport, arrivalAirport, departureDate, arrivalDate) {
         var resourcePath = '/pub/v1/farefinder/3/roundTripFares'
