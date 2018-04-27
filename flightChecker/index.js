@@ -1,5 +1,6 @@
 module.exports = function (context, myTimer) {
-    context.log("Start of function")
+    
+    context.log("Start of function");
 
     var azure = require('azure-storage');
     var request = require("request");
@@ -8,7 +9,7 @@ module.exports = function (context, myTimer) {
 
     if (!process.env[keyVar]) {
     throw new Error('please set/export the following environment variable: ' + keyVar );
-    }
+    };
 
     //Parameters
     var apikey = process.env['apikey'];
