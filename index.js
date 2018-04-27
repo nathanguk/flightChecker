@@ -19,7 +19,7 @@ module.exports = function (context) {
     var departureDate = "2018-06-08";
     var arrivalDate = "2018-06-10";
 
-    context.log("test");
+    context.log("test1");
     flightQuery();
     
     //flight query
