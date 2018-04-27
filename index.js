@@ -1,4 +1,4 @@
-module.exports = function (context) {
+module.exports = function (context, myTimer) {
 
     var azure = require('azure-storage');
     var request = require("request");
