@@ -13,7 +13,10 @@ module.exports = function (context, myTimer) {
 
     //Parameters
     var apikey = process.env["apikey"];
+    context.log(apikey);
+
     var apihost = "apigateway.ryanair.com";
+    context.log(apihost);
 
     var departureAirport = "MAN";
     var arrivalAirport = "IBZ";
