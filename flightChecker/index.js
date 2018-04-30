@@ -2,17 +2,17 @@ module.exports = function (context, myTimer) {
     
     context.log("Start of function");
 
-    var azure = require('azure-storage');
-    var request = require('request');
+    var azure = require("azure-storage");
+    var request = require("request");
     
-    var keyVar = 'apikey';
+    var keyVar = "apikey";
 
     if (!process.env[keyVar]) {
-        throw new Error('please set/export the following environment variable: ' + keyVar );
+        throw new Error("please set/export the following environment variable: " + keyVar );
     };
 
     //Parameters
-    var apikey = process.env['apikey'];
+    var apikey = process.env["apikey"];
     var apihost = "apigateway.ryanair.com";
 
     var departureAirport = "MAN";
