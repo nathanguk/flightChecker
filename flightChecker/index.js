@@ -3,7 +3,7 @@ module.exports = function (context, myTimer) {
     context.log("Start of function");
 
     var azure = require('azure-storage');
-    var request = require("request");
+    var request = require('request');
     
     var keyVar = 'apikey';
 
