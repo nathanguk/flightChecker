@@ -1,7 +1,7 @@
 module.exports = function (context, myTimer) {
     
     context.log("Start of function");
-
+    context.log("Start of function2");
     var azure = require('azure-storage');
     context.log("log1");
     var request = require('request');
