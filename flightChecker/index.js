@@ -6,6 +6,8 @@ module.exports = function (context, myTimer) {
     var request = require("request");
     
     var keyVar = "apikey";
+    context.log(keyVar);
+
 
     if (!process.env[keyVar]) {
         throw new Error("please set/export the following environment variable: " + keyVar );
