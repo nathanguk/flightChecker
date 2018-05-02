@@ -2,59 +2,42 @@ module.exports = function (context, flightCheckerQueueItem) {
     context.log(flightCheckerQueueItem);
     var azure = require('azure-storage');
     var request = require('request');
-    
+ 
+    //API Connection parameters
     var keyVar = "apikey";
-    context.log(keyVar);
-
     if (!process.env[keyVar]) {
         throw new Error("please set/export the following environment variable: " + keyVar );
     };
-
-    //Parameters
     var apikey = process.env["apikey"];
-    context.log(apikey);
-
     var apihost = "apigateway.ryanair.com";
-    context.log(apihost);
 
-    var departureAirport = "MAN";
-    var arrivalAirport = "IBZ";
+    // Set variables
+    var departureAirport = flightCheckerQueueItem.departureAirport;
+    var arrivalAirport = flightCheckerQueueItem.arrivalAirport;
+    var departureDate = flightCheckerQueueItem.departureDate;
+    var arrivalDate = flightCheckerQueueItem.arrivalDate;
 
-    var departureDate = "2018-06-08";
-    var arrivalDate = "2018-06-10";
 
 	// call flightQuery function
+    if(flightCheckerQueueItem.debug == "false"){
+        flightQuery();
+    }
     
-    //flightQuery();
-    
-    //flight query
+    //Flight query
     function flightQuery(){
-            ryanairQuery(departureAirport, arrivalAirport, departureDate, arrivalDate, function (error, data){
-				if(error){
-					context.log("Error: " + error);
-				} else {
-					context.log("Data: " + JSON.stringify(data));
-				};
-				//.then(function(data){    
-                // write to azure table
-                
-                //context.bindings.imageTableInfo = [];
-                //context.bindings.imageTableInfo.push({
-                //    PartitionKey: 'face',
-                //    RowKey: context.bindingData.name,
-                //    data: {
-                //        "api" : "face",
-                //        "imageUri" : imageUri,
-                //        "thumbUri" : thumbUri,
-                //        "faceAttributes" : data[0].faceAttributes
-                //    }
-                //})
-            //})
-            //.catch(function(err) {
-            //    context.log(`Error: ${err}`);
-            //    context.done(null, err);
-            //})
-			});
+        ryanairQuery(departureAirport, arrivalAirport, departureDate, arrivalDate, function (error, data){
+            var partitionKey = "ryanair"
+            if(error){
+                context.log("Error: " + error);
+            } else {
+                context.log("Data: " + JSON.stringify(data));
+                context.bindings.outputTable.push({
+                    PartitionKey: partitionKey,
+                    RowKey: context.bindingData.name,
+                    data: {data}
+                })
+            };
+        });
     };  
     
     //query ryanair
@@ -78,16 +61,14 @@ module.exports = function (context, flightCheckerQueueItem) {
         };
 
         request(options, function (error, response, body) {
-            if (error){
-              // Call the callback and pass in the error
-			  context.log(error);
-              callback(error, null);
+            if (response.statusCode == 200){
+                context.log("Status Code: " + response.statusCode);
+                callback(null, body);
             }
             else {
-              context.log("Status Code: " + response.statusCode);
-              //context.log(body);
-              // Call the callback and pass in the body
-              callback(null, body);
+                // Call the callback and pass in the error
+                context.log(error);
+                callback(error, null);
             }; 
         });
     };
