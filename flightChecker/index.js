@@ -20,7 +20,7 @@ module.exports = function (context, flightCheckerQueueItem) {
 
 	// call flightQuery function
     if(flightCheckerQueueItem.debug == "false"){
-        flightQuery();
+        flightQuery(departureAirport, arrivalAirport, departureDate, arrivalDate);
     }
     
     //Flight query
