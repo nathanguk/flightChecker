@@ -1,5 +1,5 @@
 module.exports = function (context, flightCheckerQueueItem) {
-    context.log(flightCheckerQueueItem);
+    //context.log(flightCheckerQueueItem);
     var azure = require('azure-storage');
     var request = require('request');
  
@@ -29,7 +29,7 @@ module.exports = function (context, flightCheckerQueueItem) {
         context.done
     } else {
         context.log("Live Mode");
-        flightQuery(departureAirport, arrivalAirport, departureDate, arrivalDate);
+        flightQuery();
     };
     
     //Flight query
