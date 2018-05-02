@@ -1,5 +1,5 @@
 module.exports = function (context, flightCheckerQueueItem) {
-    //context.log(flightCheckerQueueItem);
+    context.log(flightCheckerQueueItem);
     var azure = require('azure-storage');
     var request = require('request');
  
