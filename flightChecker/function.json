@@ -3,7 +3,7 @@
     {
       "type": "table",
       "name": "outputTable",
-      "tableName": "flightCheck",
+      "tableName": "flightChecker",
       "connection": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
       "direction": "out"
     },
