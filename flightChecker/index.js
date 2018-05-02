@@ -16,18 +16,19 @@ module.exports = function (context, flightCheckerQueueItem) {
     var arrivalAirport = flightCheckerQueueItem.arrivalAirport;
     var departureDate = flightCheckerQueueItem.departureDate;
     var arrivalDate = flightCheckerQueueItem.arrivalDate;
+    var debug = flightCheckerQueueItem.debug;
     context.log("Departure Airport: " + departureAirport);
     context.log("Arrival Airport: " + arrivalAirport);
     context.log("Departure Date: " + departureDate);
     context.log("Arrival Date: " + arrivalDate);
-    context.log("Debug Mode: " + flightCheckerQueueItem.debug);
+    context.log("Debug Mode: " + debug);
 
 	// call flightQuery function
-    if(flightCheckerQueueItem.debug == false){
+    if(debug){
+        context.log("Debug Mode");
+    } else {
         context.log("Live Mode");
         flightQuery(departureAirport, arrivalAirport, departureDate, arrivalDate);
-    } else {
-        context.log("Debug Mode");
     };
     
     //Flight query
