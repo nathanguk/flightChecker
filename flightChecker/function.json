@@ -1,18 +1,19 @@
 {
-    "bindings": [
-      {
-        "name": "myTimer",
-        "type": "timerTrigger",
-        "direction": "in",
-        "schedule": "0 */6 * * * *"
-      },
-      {
-        "type": "table",
-        "name": "outputTable",
-        "tableName": "flightCheck",
-        "connection": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
-        "direction": "out"
-      }
-    ],
-    "disabled": false
-  }
+  "bindings": [
+    {
+      "type": "table",
+      "name": "outputTable",
+      "tableName": "flightCheck",
+      "connection": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+      "direction": "out"
+    },
+    {
+      "type": "queueTrigger",
+      "name": "flightCheckerQueueItem",
+      "queueName": "flightchecker",
+      "connection": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+      "direction": "in"
+    }
+  ],
+  "disabled": false
+}

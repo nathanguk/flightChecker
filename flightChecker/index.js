@@ -1,5 +1,5 @@
-module.exports = function (context, myTimer) {
-    
+module.exports = function (context, flightCheckerQueueItem) {
+    context.log(flightCheckerQueueItem);
     var azure = require('azure-storage');
     var request = require('request');
     
@@ -24,7 +24,8 @@ module.exports = function (context, myTimer) {
     var arrivalDate = "2018-06-10";
 
 	// call flightQuery function
-    flightQuery();
+    
+    //flightQuery();
     
     //flight query
     function flightQuery(){
