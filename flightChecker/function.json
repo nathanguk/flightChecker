@@ -4,14 +4,14 @@
       "type": "table",
       "name": "outputTable",
       "tableName": "flightChecker",
-      "connection": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+      "connection": "AzureWebJobsStorage",
       "direction": "out"
     },
     {
       "type": "queueTrigger",
       "name": "flightCheckerQueueItem",
       "queueName": "flightchecker",
-      "connection": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+      "connection": "AzureWebJobsStorage",
       "direction": "in"
     }
   ],
