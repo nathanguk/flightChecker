@@ -1,5 +1,5 @@
 {
-    "debug": "true",
+    "debug": false,
     "departureAirport": "MAN",
     "arrivalAirport": "IBZ",
     "departureDate": "2018-06-08",
