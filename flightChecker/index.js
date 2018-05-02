@@ -1,5 +1,5 @@
 module.exports = function (context, flightCheckerQueueItem) {
-    context.log(flightCheckerQueueItem);
+    //context.log(flightCheckerQueueItem);
     var azure = require('azure-storage');
     var request = require('request');
  
@@ -16,12 +16,19 @@ module.exports = function (context, flightCheckerQueueItem) {
     var arrivalAirport = flightCheckerQueueItem.arrivalAirport;
     var departureDate = flightCheckerQueueItem.departureDate;
     var arrivalDate = flightCheckerQueueItem.arrivalDate;
-
+    context.log("Departure Airport: " + departureAirport);
+    context.log("Arrival Airport: " + arrivalAirport);
+    context.log("Departure Date: " + departureDate);
+    context.log("Arrival Date: " + arrivalDate);
+    context.log("Debug Mode: " + flightCheckerQueueItem.debug);
 
 	// call flightQuery function
-    if(flightCheckerQueueItem.debug == "false"){
+    if(flightCheckerQueueItem.debug == false){
+        context.log("Live Mode");
         flightQuery(departureAirport, arrivalAirport, departureDate, arrivalDate);
-    }
+    } else {
+        context.log("Debug Mode");
+    };
     
     //Flight query
     function flightQuery(){
