@@ -54,6 +54,7 @@ module.exports = function (context, flightCheckerQueueItem) {
                     context.bindings.outputTable.push({
                         PartitionKey: partitionKey,
                         RowKey: rowKey,
+                        queryDate: Date.toISOString(),
                         currency: data.fares[i].summary.price.currencySymbol,
                         costTotal: data.fares[i].summary.price.value,
                         outDepartureDate: data.fares[i].outbound.departureDate,
