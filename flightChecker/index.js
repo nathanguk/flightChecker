@@ -41,6 +41,7 @@ module.exports = function (context, flightCheckerQueueItem) {
             context.log("Row Key: " + rowKey);
 
             var date = new Date;
+            context.log(date.toISOString);
 
             if(error){
                 context.log("Error: " + error);
