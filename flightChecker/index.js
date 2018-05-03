@@ -45,9 +45,14 @@ module.exports = function (context, flightCheckerQueueItem) {
                 context.log("Error: " + error);
                 context.done();
             } else {
-                data.fares.forEach(function (fare) {
-                    context.log(fare.summary.price.value);
-                })
+                var fares = data.fares;
+                fares.forEach(function(fare) {
+                    context.log("Fare: " + summary.price.value);
+                });
+
+                //data.fares.forEach(function (fare) {
+                //    context.log(fare.summary.price.value);
+                //})
                 
                 //context.log("Data: " + JSON.stringify(data));
                 //context.bindings.outputTable = [];
@@ -56,7 +61,7 @@ module.exports = function (context, flightCheckerQueueItem) {
                 //    RowKey: rowKey,
                 //    data: dataValue
                 //});
-                //context.done();
+                context.done();
             };
         });
     };  
