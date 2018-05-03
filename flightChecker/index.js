@@ -26,7 +26,7 @@ module.exports = function (context, flightCheckerQueueItem) {
 	// call flightQuery function
     if(debug){
         context.log("Debug Mode");
-        //context.done
+        context.done();
     } else {
         context.log("Live Mode");
         flightQuery();
@@ -37,9 +37,13 @@ module.exports = function (context, flightCheckerQueueItem) {
         ryanairQuery(departureAirport, arrivalAirport, departureDate, arrivalDate, function (error, data){
             var partitionKey = departureAirport + arrivalAirport;
             var rowKey = departureDate + arrivalDate + Date.now().toString;
+            
+            context.log("Partition Key: " + partitionKey);
+            context.log("Row Key: " + rowKey);
+
             if(error){
                 context.log("Error: " + error);
-                context.done
+                context.done();
             } else {
                 context.log("Data: " + JSON.stringify(data));
                 context.bindings.outputTable = [];
@@ -48,7 +52,7 @@ module.exports = function (context, flightCheckerQueueItem) {
                     RowKey: rowKey,
                     data: data
                 });
-                context.done
+                context.done();
             };
         });
     };  
