@@ -45,15 +45,31 @@ module.exports = function (context, flightCheckerQueueItem) {
                 context.log("Error: " + error);
                 context.done();
             } else {
-                var fares = data.fares;
-                fares.forEach(function(fare) {
-                    context.log("Fare: " + summary.price.value);
-                });
-
-                //data.fares.forEach(function (fare) {
-                //    context.log(fare.summary.price.value);
-                //})
+                var numFares = Object.keys(data.fares).length;
+                context.log("Number of fares: " + numFares);
                 
+                for (var i = 0, len = numFares; i < len; i++) {
+                    //context.log(data.fares[i].summary.price.value);
+                    context.bindings.outputTable = [];
+                    context.bindings.outputTable.push({
+                        PartitionKey: partitionKey,
+                        RowKey: rowKey,
+                        currency: data.fares[i].summary.price.currencySymbol,
+                        costTotal: data.fares[i].summary.price.value,
+                        outDepartureDate: data.fares[i].outbound.departureDate,
+                        outDepartureAirport: data.fares[i].outbound.departureAirport.name,
+                        outArrivalDate: data.fares[i].outbound.arrivalDate,
+                        outArrivalAirport: data.fares[i].outbound.arrivalAirport.name,
+                        outCost: data.fares[i].outbound.price.value,
+                        inDepartureDate: data.fares[i].inbound.departureDate,
+                        inDepartureAirport: data.fares[i].inbound.departureAirport.name,
+                        inArrivalDate: data.fares[i].inbound.arrivalDate,
+                        inArrivalAirport: data.fares[i].inbound.arrivalAirport.name,                        
+                        inCost: data.fares[i].inbound.price.value
+                    });
+                };
+
+            
                 //context.log("Data: " + JSON.stringify(data));
                 //context.bindings.outputTable = [];
                 //context.bindings.outputTable.push({
