@@ -40,6 +40,7 @@ module.exports = function (context, flightCheckerQueueItem) {
             context.log("Partition Key: " + partitionKey);
             context.log("Row Key: " + rowKey);
 
+            var date = new Date;
 
             if(error){
                 context.log("Error: " + error);
@@ -49,12 +50,11 @@ module.exports = function (context, flightCheckerQueueItem) {
                 context.log("Number of fares: " + numFares);
                 
                 for (var i = 0, len = numFares; i < len; i++) {
-                    //context.log(data.fares[i].summary.price.value);
                     context.bindings.outputTable = [];
                     context.bindings.outputTable.push({
                         PartitionKey: partitionKey,
                         RowKey: rowKey,
-                        queryDate: Date.toISOString(),
+                        queryDate: date.toISOString,
                         currency: data.fares[i].summary.price.currencySymbol,
                         costTotal: data.fares[i].summary.price.value,
                         outDepartureDate: data.fares[i].outbound.departureDate,
