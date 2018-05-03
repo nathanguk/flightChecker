@@ -41,7 +41,7 @@ module.exports = function (context, flightCheckerQueueItem) {
             context.log("Row Key: " + rowKey);
 
             var date = new Date;
-            context.log(date.toISOString);
+            context.log(date.toISOString());
 
             if(error){
                 context.log("Error: " + error);
@@ -55,7 +55,7 @@ module.exports = function (context, flightCheckerQueueItem) {
                     context.bindings.outputTable.push({
                         PartitionKey: partitionKey,
                         RowKey: rowKey,
-                        queryDate: date.toISOString,
+                        queryDate: date.toISOString(),
                         currency: data.fares[i].summary.price.currencySymbol,
                         costTotal: data.fares[i].summary.price.value,
                         outDepartureDate: data.fares[i].outbound.departureDate,
