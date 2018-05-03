@@ -37,20 +37,21 @@ module.exports = function (context, flightCheckerQueueItem) {
         ryanairQuery(departureAirport, arrivalAirport, departureDate, arrivalDate, function (error, data){
             var partitionKey = departureAirport + arrivalAirport;
             var rowKey = departureDate + arrivalDate + Date.now();
-            
+            var dataValue = JSON.stringify(data);
             context.log("Partition Key: " + partitionKey);
             context.log("Row Key: " + rowKey);
+
 
             if(error){
                 context.log("Error: " + error);
                 context.done();
             } else {
-                context.log("Data: " + JSON.stringify(data));
+                context.log("Data: " + dataValue);
                 context.bindings.outputTable = [];
                 context.bindings.outputTable.push({
                     PartitionKey: partitionKey,
                     RowKey: rowKey,
-                    data: data
+                    data: dataValue
                 });
                 context.done();
             };
