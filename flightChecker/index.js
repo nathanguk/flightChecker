@@ -75,12 +75,14 @@ module.exports = function (context, flightCheckerQueueItem) {
 
         request(options, function (error, response, body) {
             if (response.statusCode == 200){
+                context.log("Ryanair API Success");
                 context.log("Status Code: " + response.statusCode);
                 callback(null, body);
             }
             else {
                 // Call the callback and pass in the error
-                context.log(error);
+                context.log("Ryanair API Error: " + error);
+                context.log("Status Code: " + response.statusCode);
                 callback(error, null);
             }; 
         });
