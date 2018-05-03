@@ -36,7 +36,7 @@ module.exports = function (context, flightCheckerQueueItem) {
     function flightQuery(){
         ryanairQuery(departureAirport, arrivalAirport, departureDate, arrivalDate, function (error, data){
             var partitionKey = departureAirport + arrivalAirport;
-            var rowKey = departureDate + arrivalDate + Date.now().toString;
+            var rowKey = departureDate + arrivalDate + Date.now();
             
             context.log("Partition Key: " + partitionKey);
             context.log("Row Key: " + rowKey);
