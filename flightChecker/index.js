@@ -37,7 +37,6 @@ module.exports = function (context, flightCheckerQueueItem) {
         ryanairQuery(departureAirport, arrivalAirport, departureDate, arrivalDate, function (error, data){
             var partitionKey = departureAirport + arrivalAirport;
             var rowKey = departureDate + arrivalDate + Date.now();
-            var dataValue = JSON.stringify(data);
             context.log("Partition Key: " + partitionKey);
             context.log("Row Key: " + rowKey);
 
@@ -46,14 +45,18 @@ module.exports = function (context, flightCheckerQueueItem) {
                 context.log("Error: " + error);
                 context.done();
             } else {
-                context.log("Data: " + dataValue);
-                context.bindings.outputTable = [];
-                context.bindings.outputTable.push({
-                    PartitionKey: partitionKey,
-                    RowKey: rowKey,
-                    data: dataValue
-                });
-                context.done();
+                data.fares.forEach(function (fare) {
+                    context.log(fare.summary.price.value);
+                })
+                
+                //context.log("Data: " + JSON.stringify(data));
+                //context.bindings.outputTable = [];
+                //context.bindings.outputTable.push({
+                //    PartitionKey: partitionKey,
+                //    RowKey: rowKey,
+                //    data: dataValue
+                //});
+                //context.done();
             };
         });
     };  
