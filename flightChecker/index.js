@@ -60,25 +60,21 @@ module.exports = function (context, flightCheckerQueueItem) {
                         costTotal: data.fares[i].summary.price.value,
                         outDepartureDate: data.fares[i].outbound.departureDate,
                         outDepartureAirport: data.fares[i].outbound.departureAirport.name,
+                        outDepartureIATA: data.fares[i].outbound.departureAirport.iataCode,
                         outArrivalDate: data.fares[i].outbound.arrivalDate,
                         outArrivalAirport: data.fares[i].outbound.arrivalAirport.name,
+                        outArrivalIATA: data.fares[i].outbound.arrivalAirport.iataCode,
                         outCost: data.fares[i].outbound.price.value,
                         inDepartureDate: data.fares[i].inbound.departureDate,
                         inDepartureAirport: data.fares[i].inbound.departureAirport.name,
+                        inDepartureIATA: data.fares[i].inbound.departureAirport.iataCode,
                         inArrivalDate: data.fares[i].inbound.arrivalDate,
-                        inArrivalAirport: data.fares[i].inbound.arrivalAirport.name,                        
+                        inArrivalAirport: data.fares[i].inbound.arrivalAirport.name,
+                        inArrivalIATA: data.fares[i].inbound.arrivalAirport.iataCode,                        
                         inCost: data.fares[i].inbound.price.value
                     });
                 };
 
-            
-                //context.log("Data: " + JSON.stringify(data));
-                //context.bindings.outputTable = [];
-                //context.bindings.outputTable.push({
-                //    PartitionKey: partitionKey,
-                //    RowKey: rowKey,
-                //    data: dataValue
-                //});
                 context.done();
             };
         });
@@ -108,6 +104,7 @@ module.exports = function (context, flightCheckerQueueItem) {
             if (response.statusCode == 200){
                 context.log("Ryanair API Success");
                 context.log("Status Code: " + response.statusCode);
+                context.log(JSON.stringify(body));
                 callback(null, body);
             }
             else {
