@@ -108,8 +108,9 @@ module.exports = function (context, flightCheckerQueueItem) {
                 context.log("Ryanair API Success");
                 context.log("Status Code: " + response.statusCode);
                 //context.log(JSON.stringify(body));
+
                 var iataCode = data.fares[i].outbound.departureAirport.iataCode
-                airportQuery(iataCode);
+                airportQuery();
 
                 callback(null, body);
             }
@@ -123,9 +124,10 @@ module.exports = function (context, flightCheckerQueueItem) {
     };
 
     //query Airport Geolocation
-    function airportQuery(iataCode, callback) {
+    function airportQuery(callback) {
         var table = "flightCheckerAirports";
         var partitionKey = "AIRPORT";
+        var iataCode = "IBZ";
         tableSvc.retrieveEntity(table, partitionKey, iataCode, function(error, result, response){
             if(!error){
                 context.log("Airport Query Sucess");
