@@ -69,16 +69,20 @@ module.exports = function (context, flightCheckerQueueItem) {
                         if(!error){
                             outDepartureLongitide = data.Longitude._;
                             outDepartureLatitude = data.Latitude._;
+
+                            //Get Inbound Airport Geolocation
+                            airportQuery(inboundIataCode, function (error, data){
+                                if(!error){
+                                    inDepartureLongitide = data.Longitude._;
+                                    inDepartureLatitude = data.Latitude._;
+                                };
+                            });
+
+
                         };
                     });
 
-                    //Get Inbound Airport Geolocation
-                    airportQuery(inboundIataCode, function (error, data){
-                        if(!error){
-                            inDepartureLongitide = data.Longitude._;
-                            inDepartureLatitude = data.Latitude._;
-                        };
-                    });
+
 
                     //Write data to storage table
                     context.bindings.outputTable = [];
