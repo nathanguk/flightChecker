@@ -57,7 +57,7 @@ module.exports = function (context, flightCheckerQueueItem) {
                     //Get Airport Geolocation Information
                     var outboundIataCode = data.fares[i].outbound.departureAirport.iataCode;
                     context.log("Outbound IATA Code: " + outboundIataCode);
-                    //airportQuery(outboundIataCode);
+                    airportQuery();
                     var inboundIataCode = data.fares[i].inbound.departureAirport.iataCode;
                     context.log("Outbound IATA Code: " + inboundIataCode);
                     //airportQuery(inboundIataCode);
@@ -128,20 +128,20 @@ module.exports = function (context, flightCheckerQueueItem) {
     };
 
     //query Airport Geolocation
-    function airportQuery(iataCode, callback) {
+    function airportQuery() {
         var table = "flightCheckerAirports";
         var partitionKey = "AIRPORT";
-        //var iataCode = "IBZ";
+        var iataCode = "IBZ";
         tableSvc.retrieveEntity(table, partitionKey, iataCode, function(error, result, response){
             if(!error){
                 context.log("Airport Query Sucess");
                 context.log(JSON.stringify(result));
-                callback(null, result);
+                //callback(null, result);
             }
             else{
                 // Call the callback and pass in the error
                 context.log("Airport Query Error: " + error);
-                callback(error, null);
+                //callback(error, null);
             }
         });
     };
