@@ -2,8 +2,11 @@ module.exports = function (context, flightCheckerQueueItem) {
     //context.log(flightCheckerQueueItem);
     var azure = require('azure-storage');
     var request = require('request');
- 
-    //API Connection parameters
+
+    // Create Table service connection
+    var tableSvc = azure.createTableService();
+
+    //Ryanair API Connection parameters
     var keyVar = "apikey";
     if (!process.env[keyVar]) {
         throw new Error("please set/export the following environment variable: " + keyVar );
@@ -104,7 +107,10 @@ module.exports = function (context, flightCheckerQueueItem) {
             if (response.statusCode == 200){
                 context.log("Ryanair API Success");
                 context.log("Status Code: " + response.statusCode);
-                context.log(JSON.stringify(body));
+                //context.log(JSON.stringify(body));
+                var iataCode = data.fares[i].outbound.departureAirport.iataCode
+                function airportQuery(iataCode);
+
                 callback(null, body);
             }
             else {
@@ -113,6 +119,24 @@ module.exports = function (context, flightCheckerQueueItem) {
                 context.log("Status Code: " + response.statusCode);
                 callback(error, null);
             }; 
+        });
+    };
+
+    //query Airport Geolocation
+    function airportQuery(iataCode, callback) {
+        var table = "flightCheckerAirports";
+        var partitionKey = "AIRPORT";
+        tableSvc.retrieveEntity(table, partitionKey, iataCode, function(error, result, response){
+            if(!error){
+                context.log("Airport Query Sucess");
+                context.log(JSON.stringify(response));
+                callback(null, response);
+            }
+            else{
+                // Call the callback and pass in the error
+                context.log("Airport Query Error: " + error);
+                callback(error, null);
+            }
         });
     };
 };
