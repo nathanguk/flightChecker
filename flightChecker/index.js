@@ -76,40 +76,36 @@ module.exports = function (context, flightCheckerQueueItem) {
                                     inDepartureLongitide = data.Longitude._;
                                     inDepartureLatitude = data.Latitude._;
 
-                                    context.log("debug here")
+                                    //Write data to storage table
+                                    context.bindings.outputTable = [];
+                                    context.bindings.outputTable.push({
+                                        PartitionKey: partitionKey,
+                                        RowKey: rowKey,
+                                        queryDate: date.toISOString(),
+                                        currency: data.fares[i].summary.price.currencySymbol,
+                                        costTotal: data.fares[i].summary.price.value,
+                                        outDepartureDate: data.fares[i].outbound.departureDate,
+                                        outDepartureAirport: data.fares[i].outbound.departureAirport.name,
+                                        outDepartureIATA: data.fares[i].outbound.departureAirport.iataCode,
+                                        outDepartureLongitide: outDepartureLongitide,
+                                        outDepartureLatitude: outDepartureLatitude,
+                                        outArrivalDate: data.fares[i].outbound.arrivalDate,
+                                        outArrivalAirport: data.fares[i].outbound.arrivalAirport.name,
+                                        outArrivalIATA: data.fares[i].outbound.arrivalAirport.iataCode,
+                                        outCost: data.fares[i].outbound.price.value,
+                                        inDepartureDate: data.fares[i].inbound.departureDate,
+                                        inDepartureAirport: data.fares[i].inbound.departureAirport.name,
+                                        inDepartureIATA: data.fares[i].inbound.departureAirport.iataCode,
+                                        inDepartureLongitide: inDepartureLongitide,
+                                        inDepartureLatitude: inDepartureLatitude,
+                                        inArrivalDate: data.fares[i].inbound.arrivalDate,
+                                        inArrivalAirport: data.fares[i].inbound.arrivalAirport.name,
+                                        inArrivalIATA: data.fares[i].inbound.arrivalAirport.iataCode,                        
+                                        inCost: data.fares[i].inbound.price.value
+                                    });
                                 };
                             });
                         };
-                    });
-
-
-
-                    //Write data to storage table
-                    context.bindings.outputTable = [];
-                    context.bindings.outputTable.push({
-                        PartitionKey: partitionKey,
-                        RowKey: rowKey,
-                        queryDate: date.toISOString(),
-                        currency: data.fares[i].summary.price.currencySymbol,
-                        costTotal: data.fares[i].summary.price.value,
-                        outDepartureDate: data.fares[i].outbound.departureDate,
-                        outDepartureAirport: data.fares[i].outbound.departureAirport.name,
-                        outDepartureIATA: data.fares[i].outbound.departureAirport.iataCode,
-                        outDepartureLongitide: outDepartureLongitide,
-                        outDepartureLatitude: outDepartureLatitude,
-                        outArrivalDate: data.fares[i].outbound.arrivalDate,
-                        outArrivalAirport: data.fares[i].outbound.arrivalAirport.name,
-                        outArrivalIATA: data.fares[i].outbound.arrivalAirport.iataCode,
-                        outCost: data.fares[i].outbound.price.value,
-                        inDepartureDate: data.fares[i].inbound.departureDate,
-                        inDepartureAirport: data.fares[i].inbound.departureAirport.name,
-                        inDepartureIATA: data.fares[i].inbound.departureAirport.iataCode,
-                        inDepartureLongitide: inDepartureLongitide,
-                        inDepartureLatitude: inDepartureLatitude,
-                        inArrivalDate: data.fares[i].inbound.arrivalDate,
-                        inArrivalAirport: data.fares[i].inbound.arrivalAirport.name,
-                        inArrivalIATA: data.fares[i].inbound.arrivalAirport.iataCode,                        
-                        inCost: data.fares[i].inbound.price.value
                     });
                 };
                 context.done();
