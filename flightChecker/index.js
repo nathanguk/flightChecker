@@ -3,7 +3,7 @@ module.exports = function (context, flightCheckerQueueItem) {
     var azure = require('azure-storage');
     var request = require('request');
 
-    // Create Table service connection
+    // Create Table service connection./.
     var tableSvc = azure.createTableService();
 
     //Ryanair API Connection parameters
@@ -109,8 +109,8 @@ module.exports = function (context, flightCheckerQueueItem) {
                 context.log("Status Code: " + response.statusCode);
                 //context.log(JSON.stringify(body));
 
-                var iataCode = data.fares[i].outbound.departureAirport.iataCode
-                airportQuery();
+                //var iataCode = data.fares[i].outbound.departureAirport.iataCode
+                //airportQuery();
 
                 callback(null, body);
             }
