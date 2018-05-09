@@ -129,8 +129,8 @@ module.exports = function (context, flightCheckerQueueItem) {
         tableSvc.retrieveEntity(table, partitionKey, iataCode, function(error, result, response){
             if(!error){
                 context.log("Airport Query Sucess");
-                context.log(JSON.stringify(response));
-                callback(null, response);
+                context.log(JSON.stringify(result));
+                callback(null, result);
             }
             else{
                 // Call the callback and pass in the error
