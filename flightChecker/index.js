@@ -75,10 +75,10 @@ module.exports = function (context, flightCheckerQueueItem) {
                                 if(!error){
                                     inDepartureLongitide = data.Longitude._;
                                     inDepartureLatitude = data.Latitude._;
+
+                                    context.log("debug here")
                                 };
                             });
-
-
                         };
                     });
 
