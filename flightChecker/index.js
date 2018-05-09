@@ -77,6 +77,7 @@ module.exports = function (context, flightCheckerQueueItem) {
                                     inDepartureLatitude = data.Latitude._;
 
                                     //Write data to storage table
+                                    context.log("1");
                                     writeTable();
                                 };
                             });
@@ -145,6 +146,7 @@ module.exports = function (context, flightCheckerQueueItem) {
     //write output to table
     function writeTable() {
         //Write data to storage table
+        context.log("2");
         context.bindings.outputTable = [];
         context.bindings.outputTable.push({
             PartitionKey: partitionKey,
