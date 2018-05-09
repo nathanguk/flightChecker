@@ -57,10 +57,10 @@ module.exports = function (context, flightCheckerQueueItem) {
                     //Get Airport Geolocation Information
                     var outboundIataCode = data.fares[i].outbound.departureAirport.iataCode;
                     context.log("Outbound IATA Code: " + outboundIataCode);
-                    airportQuery(outboundIataCode);
+                    //airportQuery(outboundIataCode);
                     var inboundIataCode = data.fares[i].inbound.departureAirport.iataCode;
                     context.log("Outbound IATA Code: " + inboundIataCode);
-                    airportQuery(inboundIataCode);
+                    //airportQuery(inboundIataCode);
 
                     context.bindings.outputTable = [];
                     context.bindings.outputTable.push({
