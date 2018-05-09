@@ -109,7 +109,8 @@ module.exports = function (context, flightCheckerQueueItem) {
                 context.log("Status Code: " + response.statusCode);
                 //context.log(JSON.stringify(body));
 
-                //var iataCode = data.fares[i].outbound.departureAirport.iataCode
+                var iataCode = data.fares[i].outbound.departureAirport.iataCode;
+                context.log("IATA Code: " + iataCode);
                 //airportQuery();
 
                 callback(null, body);
