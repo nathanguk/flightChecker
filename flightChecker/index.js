@@ -103,12 +103,14 @@ module.exports = function (context, flightCheckerQueueItem) {
                                         inArrivalIATA: data.fares[i].inbound.arrivalAirport.iataCode,                        
                                         inCost: data.fares[i].inbound.price.value
                                     });
+                                    if(i = numFares){
+                                        context.done();
+                                    };
                                 };
                             });
                         };
                     });
                 };
-                context.done();
             };
         });
     };  
