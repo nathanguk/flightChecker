@@ -77,7 +77,7 @@ module.exports = function (context, flightCheckerQueueItem) {
                                     inDepartureLatitude = data.Latitude._;
 
                                     //Write data to storage table
-                                    //writeTable();
+                                    writeTable();
                                 };
                             });
                         };
