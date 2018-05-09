@@ -103,10 +103,12 @@ module.exports = function (context, flightCheckerQueueItem) {
                                         inArrivalIATA: data.fares[i].inbound.arrivalAirport.iataCode,                        
                                         inCost: data.fares[i].inbound.price.value
                                     });
-
+                                }else{
+                                    context.log("Error retrieving inbound geolocation data: " + error);
                                 };
                             });
-
+                        }else{
+                            context.log("Error retrieving outbound geolocation data: " + error);
                         };
                     });
                 };
