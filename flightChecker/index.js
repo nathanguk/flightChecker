@@ -77,8 +77,6 @@ module.exports = function (context, flightCheckerQueueItem) {
                                     inDepartureLatitude = airportdata.Latitude._;
 
                                     //Write data to storage table
-<<<<<<< HEAD
-                                    context.log("2");
                                     context.bindings.outputTable = [];
                                     context.bindings.outputTable.push({
                                         PartitionKey: partitionKey,
@@ -105,10 +103,6 @@ module.exports = function (context, flightCheckerQueueItem) {
                                         inArrivalIATA: data.fares[i].inbound.arrivalAirport.iataCode,                        
                                         inCost: data.fares[i].inbound.price.value
                                     });
-=======
-                                    context.log("1");
-                                    writeTable();
->>>>>>> e138d18099d033c6be55eb80979615a607142c91
                                 };
                             });
                         };
