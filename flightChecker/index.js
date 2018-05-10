@@ -56,7 +56,7 @@ module.exports = function (context, flightCheckerQueueItem) {
 
                 context.bindings.outputTable = [];
                 
-                for (var i = 0, len = numFares; i < len; i++) {
+                for (var i = 1; i < numFares; i++){
                     //Get Airport Geolocation Varibales
                     var outDepartureLongitide = "";
                     var outDepartureLatitude = "";
@@ -81,26 +81,44 @@ module.exports = function (context, flightCheckerQueueItem) {
 
                                     //Write data to storage table
                                     context.log("Writing Data to Table");
-                                    //writeTable(ryanairdata, function (error, data){
-                                    //    if(!error){
-                                    //        context.log(data);                                              
-                                    //    };
-                                    //});
-                                    context.log("P: " + partitionKey);
-                                    context.log("R: " + rowKey)
-                                    
+                                    context.log("numFares: " + i + " " + numFares),
+                                    context.log("D: " + data.fares[0].summary.price.currencySymbol);
+                                    /*
                                     context.bindings.outputTable.push({
                                         PartitionKey: partitionKey,
                                         RowKey: rowKey,
-                                        queryDate: date.toISOString()
+                                        queryDate: date.toISOString(),
+                                        currency: data.fares[i].summary.price.currencySymbol,
+                                        costTotal: data.fares[i].summary.price.value,
+                                        outDepartureDate: data.fares[i].outbound.departureDate,
+                                        outDepartureAirport: data.fares[i].outbound.departureAirport.name,
+                                        outDepartureIATA: data.fares[i].outbound.departureAirport.iataCode,
+                                        outDepartureLongitide: outDepartureLongitide,
+                                        outDepartureLatitude: outDepartureLatitude,
+                                        outArrivalDate: data.fares[i].outbound.arrivalDate,
+                                        outArrivalAirport: data.fares[i].outbound.arrivalAirport.name,
+                                        outArrivalIATA: data.fares[i].outbound.arrivalAirport.iataCode,
+                                        outCost: data.fares[i].outbound.price.value,
+                                        inDepartureDate: data.fares[i].inbound.departureDate,
+                                        inDepartureAirport: data.fares[i].inbound.departureAirport.name,
+                                        inDepartureIATA: data.fares[i].inbound.departureAirport.iataCode,
+                                        inDepartureLongitide: inDepartureLongitide,
+                                        inDepartureLatitude: inDepartureLatitude,
+                                        inArrivalDate: data.fares[i].inbound.arrivalDate,
+                                        inArrivalAirport: data.fares[i].inbound.arrivalAirport.name,
+                                        inArrivalIATA: data.fares[i].inbound.arrivalAirport.iataCode,                        
+                                        inCost: data.fares[i].inbound.price.value
                                     });
+                                    */
+                                    if(i = numFares){
+                                        context.log("Done: " + i);
+                                        context.done();
+                                    };
                                 };
                             });
                         };
                     });
                 };
-                context.log("Done");
-                context.done();
             };
         });
     };  
@@ -156,38 +174,5 @@ module.exports = function (context, flightCheckerQueueItem) {
                 callback(error, null);
             }
         });
-    };
-
-    //write output to table
-    function writeTable(data, callback) {
-        //Write data to storage table
-        context.log("2");
-        context.bindings.outputTable = [];
-        context.bindings.outputTable.push({
-            PartitionKey: partitionKey,
-            RowKey: rowKey,
-            queryDate: date.toISOString(),
-            currency: data.fares[i].summary.price.currencySymbol,
-            costTotal: data.fares[i].summary.price.value,
-            outDepartureDate: data.fares[i].outbound.departureDate,
-            outDepartureAirport: data.fares[i].outbound.departureAirport.name,
-            outDepartureIATA: data.fares[i].outbound.departureAirport.iataCode,
-            outDepartureLongitide: outDepartureLongitide,
-            outDepartureLatitude: outDepartureLatitude,
-            outArrivalDate: data.fares[i].outbound.arrivalDate,
-            outArrivalAirport: data.fares[i].outbound.arrivalAirport.name,
-            outArrivalIATA: data.fares[i].outbound.arrivalAirport.iataCode,
-            outCost: data.fares[i].outbound.price.value,
-            inDepartureDate: data.fares[i].inbound.departureDate,
-            inDepartureAirport: data.fares[i].inbound.departureAirport.name,
-            inDepartureIATA: data.fares[i].inbound.departureAirport.iataCode,
-            inDepartureLongitide: inDepartureLongitide,
-            inDepartureLatitude: inDepartureLatitude,
-            inArrivalDate: data.fares[i].inbound.arrivalDate,
-            inArrivalAirport: data.fares[i].inbound.arrivalAirport.name,
-            inArrivalIATA: data.fares[i].inbound.arrivalAirport.iataCode,                        
-            inCost: data.fares[i].inbound.price.value
-        });
-        callback(null, "Data saved to table");
     };
 };
