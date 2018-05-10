@@ -78,32 +78,7 @@ module.exports = function (context, flightCheckerQueueItem) {
                                     inDepartureLatitude = airportdata.Latitude._;
 
                                     //Write data to storage table
-                                    context.bindings.outputTable = [];
-                                    context.bindings.outputTable.push({
-                                        PartitionKey: partitionKey,
-                                        RowKey: rowKey,
-                                        queryDate: date.toISOString(),
-                                        currency: ryanairdata.fares[i].summary.price.currencySymbol,
-                                        costTotal: ryanairdata.fares[i].summary.price.value,
-                                        outDepartureDate: ryanairdata.fares[i].outbound.departureDate,
-                                        outDepartureAirport: ryanairdata.fares[i].outbound.departureAirport.name,
-                                        outDepartureIATA: ryanairdata.fares[i].outbound.departureAirport.iataCode,
-                                        outDepartureLongitide: outDepartureLongitide,
-                                        outDepartureLatitude: outDepartureLatitude,
-                                        outArrivalDate: ryanairdata.fares[i].outbound.arrivalDate,
-                                        outArrivalAirport: ryanairdata.fares[i].outbound.arrivalAirport.name,
-                                        outArrivalIATA: ryanairdata.fares[i].outbound.arrivalAirport.iataCode,
-                                        outCost: ryanairdata.fares[i].outbound.price.value,
-                                        inDepartureDate: ryanairdata.fares[i].inbound.departureDate,
-                                        inDepartureAirport: ryanairdata.fares[i].inbound.departureAirport.name,
-                                        inDepartureIATA: ryanairdata.fares[i].inbound.departureAirport.iataCode,
-                                        inDepartureLongitide: inDepartureLongitide,
-                                        inDepartureLatitude: inDepartureLatitude,
-                                        inArrivalDate: ryanairdata.fares[i].inbound.arrivalDate,
-                                        inArrivalAirport: ryanairdata.fares[i].inbound.arrivalAirport.name,
-                                        inArrivalIATA: ryanairdata.fares[i].inbound.arrivalAirport.iataCode,                        
-                                        inCost: ryanairdata.fares[i].inbound.price.value
-                                    });
+                                    writeTable(ryanairdata);
                                 };
                             });
                         };
@@ -170,7 +145,7 @@ module.exports = function (context, flightCheckerQueueItem) {
     };
 
     //write output to table
-    function writeTable() {
+    function writeTable(data) {
         //Write data to storage table
         context.log("2");
         context.bindings.outputTable = [];
