@@ -53,6 +53,8 @@ module.exports = function (context, flightCheckerQueueItem) {
             } else {
                 var numFares = Object.keys(data.fares).length;
                 context.log("Number of fares: " + numFares);
+
+                context.bindings.outputTable = [];
                 
                 for (var i = 0, len = numFares; i < len; i++) {
                     //Get Airport Geolocation Varibales
@@ -79,10 +81,18 @@ module.exports = function (context, flightCheckerQueueItem) {
 
                                     //Write data to storage table
                                     context.log("Writing Data to Table");
-                                    writeTable(ryanairdata, function (error, data){
-                                        if(!error){
-                                            context.log(data);                                              
-                                        };
+                                    //writeTable(ryanairdata, function (error, data){
+                                    //    if(!error){
+                                    //        context.log(data);                                              
+                                    //    };
+                                    //});
+                                    context.log("P: " + partitionKey);
+                                    context.log("R: " + rowKey)
+                                    
+                                    context.bindings.outputTable.push({
+                                        PartitionKey: partitionKey,
+                                        RowKey: rowKey,
+                                        queryDate: date.toISOString()
                                     });
                                 };
                             });
