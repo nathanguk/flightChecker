@@ -78,7 +78,8 @@ module.exports = function (context, flightCheckerQueueItem) {
                                     inDepartureLatitude = airportdata.Latitude._;
 
                                     //Write data to storage table
-                                    writeTable(ryanairdata);
+                                    context.log("Writing Data to Table");
+                                    //writeTable(ryanairdata);
                                 };
                             });
                         };
