@@ -79,7 +79,11 @@ module.exports = function (context, flightCheckerQueueItem) {
 
                                     //Write data to storage table
                                     context.log("Writing Data to Table");
-                                    //writeTable(ryanairdata);
+                                    writeTable(ryanairdata, function (error, data){
+                                        if(!error){
+                                            context.log(data);                                              
+                                        };
+                                    });
                                 };
                             });
                         };
@@ -97,7 +101,6 @@ module.exports = function (context, flightCheckerQueueItem) {
         var queryParams = '?departureAirportIataCode=' + departureAirport + '&arrivalAirportIataCode=' + arrivalAirport + '&outboundDepartureDateFrom=' + departureDate
         queryParams = queryParams + '&outboundDepartureDateTo=' + departureDate + '&currency=GBP&language=en&market=en-gb&inboundDepartureDateFrom=' + arrivalDate + '&inboundDepartureDateTo='
         queryParams = queryParams + arrivalDate + '&apikey=' + apikey
-		
 
         var options = { 
 			method: 'GET',
@@ -146,7 +149,7 @@ module.exports = function (context, flightCheckerQueueItem) {
     };
 
     //write output to table
-    function writeTable(data) {
+    function writeTable(data, callback) {
         //Write data to storage table
         context.log("2");
         context.bindings.outputTable = [];
@@ -175,5 +178,6 @@ module.exports = function (context, flightCheckerQueueItem) {
             inArrivalIATA: data.fares[i].inbound.arrivalAirport.iataCode,                        
             inCost: data.fares[i].inbound.price.value
         });
-    }
+        callback(null, "Data saved to table");
+    };
 };
