@@ -38,6 +38,7 @@ module.exports = function (context, flightCheckerQueueItem) {
     //Flight query
     function flightQuery(){
         ryanairQuery(departureAirport, arrivalAirport, departureDate, arrivalDate, function (error, data){
+            var ryanairdata = data; 
             var partitionKey = departureAirport + arrivalAirport;
             var rowKey = departureDate + arrivalDate + Date.now();
             context.log("Partition Key: " + partitionKey);
@@ -82,26 +83,26 @@ module.exports = function (context, flightCheckerQueueItem) {
                                         PartitionKey: partitionKey,
                                         RowKey: rowKey,
                                         queryDate: date.toISOString(),
-                                        currency: data.fares[i].summary.price.currencySymbol,
-                                        costTotal: data.fares[i].summary.price.value,
-                                        outDepartureDate: data.fares[i].outbound.departureDate,
-                                        outDepartureAirport: data.fares[i].outbound.departureAirport.name,
-                                        outDepartureIATA: data.fares[i].outbound.departureAirport.iataCode,
+                                        currency: ryanairdata.fares[i].summary.price.currencySymbol,
+                                        costTotal: ryanairdata.fares[i].summary.price.value,
+                                        outDepartureDate: ryanairdata.fares[i].outbound.departureDate,
+                                        outDepartureAirport: ryanairdata.fares[i].outbound.departureAirport.name,
+                                        outDepartureIATA: ryanairdata.fares[i].outbound.departureAirport.iataCode,
                                         outDepartureLongitide: outDepartureLongitide,
                                         outDepartureLatitude: outDepartureLatitude,
-                                        outArrivalDate: data.fares[i].outbound.arrivalDate,
-                                        outArrivalAirport: data.fares[i].outbound.arrivalAirport.name,
-                                        outArrivalIATA: data.fares[i].outbound.arrivalAirport.iataCode,
-                                        outCost: data.fares[i].outbound.price.value,
-                                        inDepartureDate: data.fares[i].inbound.departureDate,
-                                        inDepartureAirport: data.fares[i].inbound.departureAirport.name,
-                                        inDepartureIATA: data.fares[i].inbound.departureAirport.iataCode,
+                                        outArrivalDate: ryanairdata.fares[i].outbound.arrivalDate,
+                                        outArrivalAirport: ryanairdata.fares[i].outbound.arrivalAirport.name,
+                                        outArrivalIATA: ryanairdata.fares[i].outbound.arrivalAirport.iataCode,
+                                        outCost: ryanairdata.fares[i].outbound.price.value,
+                                        inDepartureDate: ryanairdata.fares[i].inbound.departureDate,
+                                        inDepartureAirport: ryanairdata.fares[i].inbound.departureAirport.name,
+                                        inDepartureIATA: ryanairdata.fares[i].inbound.departureAirport.iataCode,
                                         inDepartureLongitide: inDepartureLongitide,
                                         inDepartureLatitude: inDepartureLatitude,
-                                        inArrivalDate: data.fares[i].inbound.arrivalDate,
-                                        inArrivalAirport: data.fares[i].inbound.arrivalAirport.name,
-                                        inArrivalIATA: data.fares[i].inbound.arrivalAirport.iataCode,                        
-                                        inCost: data.fares[i].inbound.price.value
+                                        inArrivalDate: ryanairdata.fares[i].inbound.arrivalDate,
+                                        inArrivalAirport: ryanairdata.fares[i].inbound.arrivalAirport.name,
+                                        inArrivalIATA: ryanairdata.fares[i].inbound.arrivalAirport.iataCode,                        
+                                        inCost: ryanairdata.fares[i].inbound.price.value
                                     });
                                 };
                             });
