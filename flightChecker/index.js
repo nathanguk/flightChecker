@@ -65,18 +65,19 @@ module.exports = function (context, flightCheckerQueueItem) {
                     context.log("Outbound IATA Code: " + inboundIataCode);
 
                     //Get Outbound Airport Geolocation
-                    airportQuery(outboundIataCode, function (error, data){
+                    airportQuery(outboundIataCode, function (error, airportdata){
                         if(!error){
-                            outDepartureLongitide = data.Longitude._;
-                            outDepartureLatitude = data.Latitude._;
+                            outDepartureLongitide = airportdata.Longitude._;
+                            outDepartureLatitude = airportdata.Latitude._;
 
                             //Get Inbound Airport Geolocation
-                            airportQuery(inboundIataCode, function (error, data){
+                            airportQuery(inboundIataCode, function (error, airportdata){
                                 if(!error){
-                                    inDepartureLongitide = data.Longitude._;
-                                    inDepartureLatitude = data.Latitude._;
+                                    inDepartureLongitide = airportdata.Longitude._;
+                                    inDepartureLatitude = airportdata.Latitude._;
 
                                     //Write data to storage table
+                                    context.log("2");
                                     context.bindings.outputTable = [];
                                     context.bindings.outputTable.push({
                                         PartitionKey: partitionKey,
@@ -103,15 +104,12 @@ module.exports = function (context, flightCheckerQueueItem) {
                                         inArrivalIATA: data.fares[i].inbound.arrivalAirport.iataCode,                        
                                         inCost: data.fares[i].inbound.price.value
                                     });
-                                }else{
-                                    context.log("Error retrieving inbound geolocation data: " + error);
                                 };
                             });
-                        }else{
-                            context.log("Error retrieving outbound geolocation data: " + error);
                         };
                     });
                 };
+                context.log("Done");
                 context.done();
             };
         });
