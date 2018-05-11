@@ -41,8 +41,11 @@ module.exports = function (context, flightCheckerTimer) {
                     "arrivalAirport": check.arrivalAirport._ ,
                     "departureDate": check.departureDate._ ,
                     "arrivalDate": check.arrivalDate._
-                };         
-                createMessage(JSON.stringify(message), function (error, result){
+                };
+                
+                var buff = new Buffer(message);  
+                var base64message = buff.toString('base64');
+                createMessage(JSON.stringify(base64message), function (error, result){
                     if(!error){
                         context.log("Created Message: " + result);
                     }else{
