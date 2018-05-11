@@ -1,10 +1,17 @@
 module.exports = function (context, flightCheckerQueueItem) {
-    //context.log(flightCheckerQueueItem);
+
     var azure = require('azure-storage');
     var request = require('request');
 
     // Create Table service connection./.
     var tableSvc = azure.createTableService();
+
+    tableSvc.createTableIfNotExists('flightCheckerResults', function(error) {
+        if(!error) { 
+          // Table created or exists
+          context.log("Create table 'flightCheckerResults' or already exists");
+        }
+    });
 
     //Ryanair API Connection parameters
     var keyVar = "apikey";
