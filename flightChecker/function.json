@@ -2,8 +2,8 @@
   "bindings": [
     {
       "type": "table",
-      "name": "outputTable",
-      "tableName": "flightChecker",
+      "name": "flightCheckerResults",
+      "tableName": "flightCheckerResults",
       "connection": "AzureWebJobsStorage",
       "direction": "out"
     },
