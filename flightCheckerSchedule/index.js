@@ -13,7 +13,7 @@ module.exports = function (context, flightCheckerTimer) {
         }
     });
 
-
+    //check for destinations and flights to query
     checkQuery(function (error, airportdata){
         if(!error){
             context.log("result")
