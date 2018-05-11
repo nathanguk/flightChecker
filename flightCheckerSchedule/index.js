@@ -13,23 +13,33 @@ module.exports = function (context, flightCheckerTimer) {
         }
     });
 
-    //check for destinations and flights to query
-    checkQuery(function (error, airportdata){
+
+    checkQuery(function (error, result){
         if(!error){
-            context.log("result")
+            context.log("Result")
+            context.log(JSON.stringify(result));
+
+            var checks = result.entries;   
+            checks.forEach(function(check) { 
+                context.log(check.RowKey._);
+            });
+
             context.done();
-        }
+        }else{
+            context.log("Error: " + error);
+            context.done();
+        };
     });
 
-    var timeStamp = new Date().toISOString();
+    //var timeStamp = new Date().toISOString();
     
-    if(flightCheckerTimer.isPastDue)
-    {
-        context.log('JavaScript is running late!');
-    }
-    context.log('JavaScript timer trigger function ran!:', timeStamp);   
+    //if(flightCheckerTimer.isPastDue)
+    //{
+    //    context.log('JavaScript is running late!');
+    //}
+    //context.log('JavaScript timer trigger function ran!:', timeStamp);   
     
-    context.done();
+    //context.done();
 
 
 
@@ -41,12 +51,12 @@ module.exports = function (context, flightCheckerTimer) {
 
         tableSvc.queryEntities(table,query, null, function(error, result, response){
             if(!error){
-                context.log("Query checks table result: " + result);
+                //context.log("Query checks table result: " + result);
                 callback(null, result);
             }
             else{
                 // Call the callback and pass in the error
-                context.log("Query checks table error: " + error);
+                //context.log("Query checks table error: " + error);
                 callback(error, null);
             }
         });
