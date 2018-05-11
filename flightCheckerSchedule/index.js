@@ -14,7 +14,7 @@ module.exports = function (context, flightCheckerTimer) {
     queueService.createQueueIfNotExists('flightchecker', function(error) {
         if(!error) {
           // Queue created or exists
-          context.log("Create queue 'flightchecker' or already exists");
+          context.log("Created queue 'flightchecker' or already exists");
         }
     });
 
@@ -25,7 +25,7 @@ module.exports = function (context, flightCheckerTimer) {
     tableSvc.createTableIfNotExists('flightCheckerChecks', function(error) {
         if(!error) { 
           // Table created or exists
-          context.log("Create table 'flightCheckerChecks' or already exists");
+          context.log("Created table 'flightCheckerChecks' or already exists");
         }
     });
 
@@ -41,10 +41,10 @@ module.exports = function (context, flightCheckerTimer) {
                     "arrivalAirport": check.arrivalAirport._ ,
                     "departureDate": check.departureDate._ ,
                     "arrivalDate": check.arrivalDate._
-                };
-                checkcreateMessage(message, function (error, result){
+                };         
+                createMessage(message, function (error, result){
                     if(!error){
-                        context.log("Creted Message");
+                        context.log("Created Message: " + result);
                         context.done();
                     }else{
                         context.log("Error: " + error);
@@ -64,7 +64,7 @@ module.exports = function (context, flightCheckerTimer) {
         queueService.createMessage('flightchecker', message, function(error) {
             if(!error) {
                 //context.log("Queue message result: " + result);
-                callback(null, result);
+                callback(null, "result");
             }else{
                 // Call the callback and pass in the error
                 //context.log("Queue message error: " + error);
@@ -72,7 +72,6 @@ module.exports = function (context, flightCheckerTimer) {
             }
         });
     };
-
 
 
     //Query Days and Destinations to Check
