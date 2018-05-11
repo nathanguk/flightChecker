@@ -1,0 +1,11 @@
+{
+    "bindings": [
+      {
+        "name": "flightCheckerTimer",
+        "type": "timerTrigger",
+        "direction": "in",
+        "schedule": "0 1 * * * *"
+      }
+    ],
+    "disabled": false
+  }
