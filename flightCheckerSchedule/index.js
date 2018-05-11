@@ -61,7 +61,8 @@ module.exports = function (context, flightCheckerTimer) {
 
     //Create a new message and put in queue
     function createMessage(message, callback) {
-        queueService.createMessage('flightchecker', message, function(error) {
+        var queue = "flightcheckertest";
+        queueService.createMessage(queue, message, function(error) {
             if(!error) {
                 //context.log("Queue message result: " + result);
                 callback(null, "result");
