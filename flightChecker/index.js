@@ -20,11 +20,6 @@ module.exports = function (context, flightCheckerQueueItem) {
     var departureDate = flightCheckerQueueItem.departureDate;
     var arrivalDate = flightCheckerQueueItem.arrivalDate;
     var debug = flightCheckerQueueItem.debug;
-    context.log("Departure Airport: " + departureAirport);
-    context.log("Arrival Airport: " + arrivalAirport);
-    context.log("Departure Date: " + departureDate);
-    context.log("Arrival Date: " + arrivalDate);
-    context.log("Debug Mode: " + debug);
 
 	// call flightQuery function
     if(debug){
@@ -40,32 +35,23 @@ module.exports = function (context, flightCheckerQueueItem) {
         ryanairQuery(departureAirport, arrivalAirport, departureDate, arrivalDate, function (error, data){
             var ryanairdata = data; 
             var partitionKey = departureAirport + arrivalAirport;
-            var rowKey = departureDate + arrivalDate + Date.now();
-            context.log("Partition Key: " + partitionKey);
-            context.log("Row Key: " + rowKey);
-
             var date = new Date;
-            context.log(date.toISOString());
+            var rowKey = departureDate + arrivalDate + date.toISOString();
 
             if(error){
                 context.log("Error: " + error);
                 context.done();
             } else {
-                var numFares = Object.keys(data.fares).length;
-                context.log("Number of fares: " + numFares);
-
-                context.bindings.outputTable = [];
+                var fares = data.fares;
                 
-                for (var i = 1; i < numFares; i++){
+                fares.forEach(function(fare) { 
                     //Get Airport Geolocation Varibales
                     var outDepartureLongitide = "";
                     var outDepartureLatitude = "";
                     var inDepartureLongitide = ""; 
                     var inDepartureLatitude = "";
-                    var outboundIataCode = data.fares[i].outbound.departureAirport.iataCode;
-                    context.log("Outbound IATA Code: " + outboundIataCode);
-                    var inboundIataCode = data.fares[i].inbound.departureAirport.iataCode;
-                    context.log("Outbound IATA Code: " + inboundIataCode);
+                    var outboundIataCode = fare.outbound.departureAirport.iataCode;
+                    var inboundIataCode = fare.inbound.departureAirport.iataCode;
 
                     //Get Outbound Airport Geolocation
                     airportQuery(outboundIataCode, function (error, airportdata){
@@ -81,44 +67,39 @@ module.exports = function (context, flightCheckerQueueItem) {
 
                                     //Write data to storage table
                                     context.log("Writing Data to Table");
-                                    context.log("numFares: " + i + " " + numFares),
-                                    context.log("D: " + data.fares[0].summary.price.currencySymbol);
-                                    /*
-                                    context.bindings.outputTable.push({
-                                        PartitionKey: partitionKey,
-                                        RowKey: rowKey,
-                                        queryDate: date.toISOString(),
-                                        currency: data.fares[i].summary.price.currencySymbol,
-                                        costTotal: data.fares[i].summary.price.value,
-                                        outDepartureDate: data.fares[i].outbound.departureDate,
-                                        outDepartureAirport: data.fares[i].outbound.departureAirport.name,
-                                        outDepartureIATA: data.fares[i].outbound.departureAirport.iataCode,
+                                    context.bindings.flightCheckerResults = [];
+                                    context.bindings.flightCheckerResults.push({
+                                        PartitionKey: partitionKey.toString(),
+                                        rowKey: rowKey.toString(),
+                                        currency: fare.summary.price.currencySymbol,
+                                        costTotal: fare.summary.price.value,
+                                        outDepartureDate: fare.outbound.departureDate,
+                                        outDepartureAirport: fare.outbound.departureAirport.name,
+                                        outDepartureIATA: fare.outbound.departureAirport.iataCode,
                                         outDepartureLongitide: outDepartureLongitide,
                                         outDepartureLatitude: outDepartureLatitude,
-                                        outArrivalDate: data.fares[i].outbound.arrivalDate,
-                                        outArrivalAirport: data.fares[i].outbound.arrivalAirport.name,
-                                        outArrivalIATA: data.fares[i].outbound.arrivalAirport.iataCode,
-                                        outCost: data.fares[i].outbound.price.value,
-                                        inDepartureDate: data.fares[i].inbound.departureDate,
-                                        inDepartureAirport: data.fares[i].inbound.departureAirport.name,
-                                        inDepartureIATA: data.fares[i].inbound.departureAirport.iataCode,
+                                        outArrivalDate: fare.outbound.arrivalDate,
+                                        outArrivalAirport: fare.outbound.arrivalAirport.name,
+                                        outArrivalIATA: fare.outbound.arrivalAirport.iataCode,
+                                        outCost: fare.outbound.price.value,
+                                        inDepartureDate: fare.inbound.departureDate,
+                                        inDepartureAirport: fare.inbound.departureAirport.name,
+                                        inDepartureIATA: fare.inbound.departureAirport.iataCode,
                                         inDepartureLongitide: inDepartureLongitide,
                                         inDepartureLatitude: inDepartureLatitude,
-                                        inArrivalDate: data.fares[i].inbound.arrivalDate,
-                                        inArrivalAirport: data.fares[i].inbound.arrivalAirport.name,
-                                        inArrivalIATA: data.fares[i].inbound.arrivalAirport.iataCode,                        
-                                        inCost: data.fares[i].inbound.price.value
+                                        inArrivalDate: fare.inbound.arrivalDate,
+                                        inArrivalAirport: fare.inbound.arrivalAirport.name,
+                                        inArrivalIATA: fare.inbound.arrivalAirport.iataCode,                        
+                                        inCost: fare.inbound.price.value
                                     });
-                                    */
-                                    if(i = numFares){
-                                        context.log("Done: " + i);
-                                        context.done();
-                                    };
+                                    //Function completed
+                                    context.log("Done");
+                                    context.done();
                                 };
                             });
                         };
                     });
-                };
+                });
             };
         });
     };  
@@ -164,13 +145,12 @@ module.exports = function (context, flightCheckerQueueItem) {
         var partitionKey = "AIRPORT";
         tableSvc.retrieveEntity(table, partitionKey, iataCode, function(error, result, response){
             if(!error){
-                context.log("Airport Query Sucess");
-                context.log(JSON.stringify(result));
+                context.log("Airport Query Sucess: " + iataCode);
                 callback(null, result);
             }
             else{
                 // Call the callback and pass in the error
-                context.log("Airport Query Error: " + error);
+                context.log("Airport Query Error: " + iataCode + " : " +error);
                 callback(error, null);
             }
         });
