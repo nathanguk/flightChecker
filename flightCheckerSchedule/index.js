@@ -52,7 +52,7 @@ module.exports = function (context, flightCheckerTimer) {
                             context.done();
                         };
                     }),
-                5000, );
+                5000);
             });
         }else{
             context.log("Error: " + error);
