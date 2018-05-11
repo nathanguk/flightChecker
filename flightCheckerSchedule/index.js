@@ -9,6 +9,7 @@ module.exports = function (context, flightCheckerTimer) {
 
     // Create Queue service connection
     var queueService = azure.createQueueService();
+    var queueMessageEncoder = azure.QueueMessageEncoder;
 
     // Check if queues exist and create it if not
     queueService.createQueueIfNotExists('flightchecker', function(error) {
@@ -43,9 +44,7 @@ module.exports = function (context, flightCheckerTimer) {
                     "arrivalDate": check.arrivalDate._
                 };
                 
-                var buff = new Buffer(message);  
-                var base64message = buff.toString('base64');
-                createMessage(JSON.stringify(base64message), function (error, result){
+                createMessage(message, function (error, result){
                     if(!error){
                         context.log("Created Message: " + result);
                     }else{
@@ -64,6 +63,7 @@ module.exports = function (context, flightCheckerTimer) {
     //Create a new message and put in queue
     function createMessage(message, callback) {
         var queue = "flightchecker";
+        queueService.messageEncoder = new queueMessageEncoder.TextBase64QueueMessageEncoder();
         queueService.createMessage(queue, message, function(error) {
             if(!error) {
                 //context.log("Queue message result: " + result);
