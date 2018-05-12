@@ -43,13 +43,18 @@ module.exports = function (context, flightCheckerTimer) {
                     "departureDate": check.departureDate._ ,
                     "arrivalDate": check.arrivalDate._
                 };
-                createMessage(JSON.stringify(message), function (error, result){
-                    if(!error){
-                        context.log("Created Message: " + result);
-                    }else{
-                        context.log("Error: " + error);
-                    };
-                });
+                                  
+                setTimeout(
+                  
+                    createMessage(JSON.stringify(message), function (error, result){
+                        if(!error){
+                            context.log("Created Message: " + result);
+                        }else{
+                            context.log("Error: " + error);
+                        };
+                    }),
+
+                5000);
             });
             context.done();
         }else{
