@@ -37,23 +37,19 @@ module.exports = function (context, flightCheckerTimer) {
             var checks = result.entries;   
             checks.forEach(function(check) { 
                 context.log("RowKey: " + check.RowKey._);
-                setTimeout(sendMessage, 5000, check);
-
-                function sendMessage(check){
-                    var message = {
-                        "departureAirport": check.departureAirport._ ,
-                        "arrivalAirport": check.arrivalAirport._ ,
-                        "departureDate": check.departureDate._ ,
-                        "arrivalDate": check.arrivalDate._
-                    };
-                    createMessage(JSON.stringify(message), function (error, result){
-                        if(!error){
-                            context.log("Created Message: " + result);
-                        }else{
-                            context.log("Error: " + error);
-                        };
-                    });
+                var message = {
+                    "departureAirport": check.departureAirport._ ,
+                    "arrivalAirport": check.arrivalAirport._ ,
+                    "departureDate": check.departureDate._ ,
+                    "arrivalDate": check.arrivalDate._
                 };
+                createMessage(JSON.stringify(message), function (error, result){
+                    if(!error){
+                        context.log("Created Message: " + result);
+                    }else{
+                        context.log("Error: " + error);
+                    };
+                });
             });
             context.done();
         }else{
